@@ -1,0 +1,43 @@
+name: Daily Snoqualmie MATLAB Forecast
+
+on:
+  schedule:
+    - cron: '30 8 * * *'
+      timezone: 'America/New_York'
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: snoqualmie-forecast
+  cancel-in-progress: false
+
+jobs:
+  collect-forecast:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v4
+
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v3
+        with:
+          release: R2024b
+
+      - name: Run MATLAB forecast
+        uses: matlab-actions/run-command@v3
+        with:
+          command: collect_forecast("Snoqualmie, WA", 47.534722, -121.858333, "snoqualmie_next2.csv")
+
+      - name: Save updated CSV
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add snoqualmie_next2.csv
+          if ! git diff --cached --quiet; then
+            git commit -m "Update daily forecast"
+            git push
+          fi
