@@ -9,8 +9,8 @@ function F = collect_forecast(city, latitude, longitude, saveDir)
 
     arguments
         city (1,1) string
-        latitude (1,1) double {mustBeGreaterThanOrEqual(latitude,-90), mustBeLessThanOrEqual(latitude,90)}
-        longitude (1,1) double {mustBeGreaterThanOrEqual(longitude,-180), mustBeLessThanOrEqual(longitude,180)}
+        latitude (1,1) double
+        longitude (1,1) double
         saveDir (1,1) string = ""
     end
 
