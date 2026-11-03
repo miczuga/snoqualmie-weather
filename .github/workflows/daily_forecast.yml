@@ -2,7 +2,7 @@ name: Daily Snoqualmie MATLAB Forecast
 
 on:
   schedule:
-    - cron: '30 8 * * *'
+    - cron: '30 7 * * *'
       timezone: 'America/New_York'
 
   workflow_dispatch:
